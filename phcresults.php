@@ -1,3 +1,4 @@
+<?php
 //Developed by David Bunker (bunk58) 28/08/08
 //Requires the PageHitCounter 2.0 by Susan Otwell (http://modxcms.com/repository-upload.html?repotype=addition&resourceid=878)
 //Create a new snippet named PHCResults
@@ -14,22 +15,15 @@
 //Copy & Paste the above into a chunk and name it top_pages or create your own
 //Here's the snippet code =>
 
-<?php
 $table_prefix = (isset($table_prefix)) ? $table_prefix : 'modx_';
 $limit = (isset($limit)) ? $limit : 5;
 $excludeIDs = (isset($excludeIDs)) ? $excludeIDs : '0';
 $tpl = (isset($tpl)) ? $tpl : 'top_pages';
+$currentID = (isset($currentID)) ? $currentID : $modx->documentIdentifier;
 $output = '';
-$sql = mysql_query('SELECT * FROM `'.$table_prefix.'page_hit_counter`, `'.$table_prefix.'site_content` WHERE '.$table_prefix.'page_hit_counter.page_id='.$table_prefix.'site_content.id AND '.$table_prefix.'site_content.id NOT IN('.$excludeIDs.')ORDER BY `page_count` DESC LIMIT '.$limit.'');
-$resultArray = $modx->db->makeArray( $sql );
-foreach($resultArray as $item)
-{
-$params['phc.count']=$item['page_count'];
-$params['phc.pageID']=$item['page_id'];
-$params['phc.title']=$item['pagetitle'];
-$params['phc.longtitle']=$item['longtitle'];
-$params['phc.description']=$item['description'];
-$output.=$modx->parseChunk(''.$tpl.'', $params, '[+', '+]');
-}
+//$sql = mysql_query('SELECT * FROM `'.$table_prefix.'page_hit_counter` WHERE '.$table_prefix.'page_hit_counter.page_id='.$currentID.' LIMIT 1');
+$sql2 = mysql_query('SELECT SUM( modx_page_hit_counter.page_count ) AS page_count FROM  `modx_page_hit_counter` WHERE 1');
+$resultArray = $modx->db->makeArray( $sql2 );
+$output.='Besucher: '.$resultArray['page_count'];
 return $output;
 ?>
