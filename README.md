@@ -1,5 +1,5 @@
 # PageHitCounter
-Displays Results from the mode evolution PageHitCouter
+Displays Results from the modx evolution PageHitCouter
 
 Originally from the [modx-extras-repo](http://modx.com/extras/). I posted it here, because i wanted to modify it and make this modification available for everybody.
 
